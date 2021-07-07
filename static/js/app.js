@@ -82,7 +82,7 @@ function getDemographicInfo(data, idName1){
 
   
 }
-//
+// getting "samples" Data for graphing
 
 function getSamples(data, idName2){
   
@@ -95,94 +95,96 @@ function getSamples(data, idName2){
      return samples.id === idName2;
   }
   console.log("idName2 = ", idName2);
-  var filteredSamples = data.samples.filter(filterSValues);
-  console.log("filteredSamples=", filteredSamples);
-  console.log("filteredSamples.[0].id=", filteredSamples[0].id);
-  console.log("filteredSamples.[0].otu_ids[0]=", filteredSamples[0].otu_ids[0]);
-  console.log("filteredSamples.[0].otu_ids[1]=", filteredSamples[0].otu_ids[1]);
-
+  //var filteredSamples = data.samples.filter(filterSValues);
+  var filteredSamples0 = data.samples;
+  var filteredSamples = filteredSamples0.filter(filterSValues);
   var idSample = filteredSamples.map(samples => samples.id);
   console.log("idSample=", idSample);
 
-  var otuIds = filteredSamples.map(samples => samples.otu_ids);
-  console.log("otuIds[0]=", otuIds[0]);
-  console.log("otuIds[1]=", otuIds[1]);
-  console.log("otuIds[2]=", otuIds[2]);
+  // does not work ???
+  // var otuIds = filteredSamples.map(samples => samples.otu_ids);
+  // console.log("otuIds[0]=", otuIds[0]);
+  // console.log("otuIds[1]=", otuIds[1]);
+  // console.log("otuIds[2]=", otuIds[2]);
+  // console.log ("length=", otuIds.length);
+  // var sampleValues = filteredSamples.map(samples => samples.sample_values);
+  // console.log("sampleValues =", sampleValues);
+  // var otuLabels = filteredSamples.map(samples => samples.otu_labels);
+  // console.log("1 - otuLabels=", otuLabels);
+  // var otuLabels10 = otuLabels.slice(0, 10);
+  // console.log("1 - otuLabels10=", otuLabels10);
+  // does not work ??? until here
   
-  console.log ("length=", otuIds.length);
+  console.log("filteredSamples=", filteredSamples);
+  console.log("filteredSamples.[0].id=", filteredSamples[0].id);
 
+  // getting otu_ids
+  console.log("filteredSamples.[0].otu_ids[0]=", filteredSamples[0].otu_ids[0]);
+  console.log("filteredSamples.[0].otu_ids[1]=", filteredSamples[0].otu_ids[1]);
   
-
-  
-  var sampleValues = filteredSamples.map(samples => samples.sample_values);
-  console.log("sampleValues =", sampleValues);
-  
-  var otuLabels = filteredSamples.map(samples => samples.otu_labels);
-  console.log("otuLabelss=", otuLabels);
-
   var otuIds10 = filteredSamples[0].otu_ids.slice(0, 10);
-
   console.log("sliced otuIds=", otuIds10);
+  var otuReversedData = otuIds10.reverse();
   var otuIds10Name = [];
   for (i = 0; i < 10; i++){
-    otuIds10Name[i] = `OTU ${otuIds10[i]}`;
+    otuIds10Name[i] = `OTU ${otuReversedData[i]}`;
   }
   console.log("otuIds10Name = ", otuIds10Name);
+  
 
+  // getting sample_values
   var sampleValues10 = filteredSamples[0].sample_values.slice(0, 10);
+  var sampleValuesReversedData = sampleValues10.reverse();
   console.log("sliced sampleValues10=", sampleValues10);
   
+  // getting otu_labels slice does not work because it is a string ??
+  console.log("filteredSamples.[0].otu_labels[0]=", filteredSamples[0].otu_labels[0]);
+  console.log("filteredSamples.[0].otu_labels[1]=", filteredSamples[0].otu_labels[1]);
+  //var otuLabels10 = filteredSamples[0].otu_lables.slice(0, 10);
+  //var otuLabesReversedData = otuLabels10.reverse();
+  //console.log("sliced otuLables10=", otuLabels10);
+
   var trace1 = {
-    y: sampleValues10,
-    x: otuIds10Name,
-    type: "bar"
+    x:sampleValuesReversedData,
+    y: otuIds10Name,
+    type: "bar",
+    orientation: "h"
+    //text: otuLabels10
   };
  
   var dataBar = [trace1];
  
   var layout = {
-    title: "'Bar' Chart"
+    title: "OTU Values"
   };
  
   Plotly.newPlot("bar", dataBar, layout);
-}
-//15-02-07
 
-//  d3.selectAll("selDataset").on("change", updatePage);
+  // bubble chart
 
-// function updatePage() {
-// Use D3 to select the dropdown menu
-  // console.log("here");
-  // var dropdownMenu = d3.selectAll("#selectOption").node();
-// Assign the dropdown menu item ID to a variable
-  // var dropdownMenuID = dropdownMenu.id;
-// Assign the dropdown menu option to a variable
-  // var selectedOption = dropdownMenu.value;
-
-//  console.log(dropdownMenuID);
-//  console.log(selectedOption);
-//  }
-
-
-// 
-// d3.json("samples.json").then((data) => {
-    //  Create the Traces
-    // var trace1 = {
-    //   x: data.samples.sample_values,
-    //   y: data.samples.otu_ids,
-    //   type: "bar",
-    //   name: "Cancer Survival",
-    //   boxpoints: "all"
-    // };
+  var trace2 = {
+    y:sampleValuesReversedData,
+    x: otuReversedData,
+    mode: 'markers',
+    marker: {
+      color: ['rgb(93, 164, 214)', 'rgb(255, 144, 14)',  'rgb(44, 160, 101)', 'rgb(255, 65, 54)','rgb(164, 89, 240)', 'rgb(232, 226, 65)',  'rgb(232, 65, 182)', 
+      'rgb(97, 64, 16)', 'rgb(20, 25, 179)', 'rgb(188, 242, 94)'],
+      opacity: [1,1,1,1,1,1,1,1,1,1],
+      size: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ]
+    }
+  };
   
-    // var data = [trace1];
-
-    //  var layout = {
-    //    title: "'Bar' Chart"
-    //  };
-
-    // Plot the chart to a div tag with id "plot"
-    // Plotly.newPlot("plot", data, layout);
-//   });
+  var dataBubble = [trace2];
+  
+  var layout2 = {
+    //title: 'Marker Size and Color',
+    showlegend: false,
+    height: 600,
+    width: 1000
+  };
+  
+  
+  Plotly.newPlot("bubble", dataBubble, layout2);
+}
   
 init();

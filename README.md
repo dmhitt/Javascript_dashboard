@@ -1,6 +1,6 @@
 # Javascript Dashboard
----
-### Belly Button Biodiversity Dashboad
+
+## Belly Button Biodiversity Dashboad
 
 Wel build an interactive dashboard to explore the Belly Button Biodiversity dataset, which catalogs the microbes that colonize human navels.
 

@@ -10,7 +10,7 @@ The dataset reveals that a small handful of microbial species (also called opera
 * JSON file
  
 ### Tools
-* HTML, Javascript, BootSrap, D3, Plotly
+* HTML, JavaScript, Bootstrap, D3, Plotly
  
 ### GitHub pages 
 https://dmhitt.github.io/Javascript_dashboard/
